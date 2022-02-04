@@ -1,4 +1,6 @@
 
+const currentCountryWeatherObj = new Object();
+
 
 (function weatherApp(){
     
@@ -13,27 +15,30 @@
         return textboxCity.value;        
     }
 
-    const weatherAPI = async function(city){
+    const getGeocodingAPI = async function(city){
         try{
-            const weatherRightNow = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`, {mode:'cors'})
-            const response = await weatherRightNow.json();
-           
-            console.log(processDataJson(response));
+            const geocodingAPI = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`, {mode:'cors'})
+            const response = await geocodingAPI.json();
+            
+           return response;
+
         }catch(err){
             console.log(err)
         }
-        
     }
+    
 
-    const processDataJson = function(json){
-        const data = json[0].country
-        return data;
+    const processGeocodingJson = function(json){
+        currentCountryWeatherObj.name = json[0].local_names.en;
+        currentCountryWeatherObj.country = json[0].country;
+        currentCountryWeatherObj.lat = json[0].lat;
+        currentCountryWeatherObj.lon = json[0].lon;
     }
     
     buttonSearch.addEventListener('click', function(){
         const city = getCity(); 
         
-        weatherAPI(city);
+        getGeocodingAPI(city);
     })
     
 })();
