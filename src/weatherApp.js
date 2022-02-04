@@ -1,3 +1,4 @@
+import dom from "./dom";
 
 const currentCountryWeatherObj = new Object();
 
@@ -45,13 +46,13 @@ const currentCountryWeatherObj = new Object();
 
     const  getGiphyWeather = async function(){
         try{
-            const getWeatherData = await getWeatherAPI();
-            processWeatherJson(getWeatherData); 
-            console.log(currentCountryWeatherObj.weatherDescription)
-            const getGiphyURL = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=cats`, {mode: 'cors'})
+            // const getWeatherData = await getWeatherAPI();
+            // processWeatherJson(getWeatherData); 
+            // console.log(currentCountryWeatherObj.weatherDescription)
+            const getGiphyURL = await fetch(`api.giphy.com/v1/gifs/translate?api_key=9nKZqJYnvDui5Vyrrth50XnAQTkL9O0S&s=cats`, {mode: 'cors'})
             const giphyData = getGiphyURL.json();
-            
-            showGiphy(giphyData.data.images.original.url)
+            console.log(giphyData)
+            //showGiphy(giphyData)
         }catch(err){
             console.log(err);
         }
@@ -80,8 +81,8 @@ const currentCountryWeatherObj = new Object();
     
     buttonSearch.addEventListener('click', function(){
 
-         getGiphyWeather();
-         
+        // getGiphyWeather();
+         dom.createPanel();
     })
     
 })();
