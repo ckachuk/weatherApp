@@ -1,4 +1,5 @@
 import dom from "./dom";
+import './style.css';
 
 const currentCountryWeather = new Object();
 
@@ -28,11 +29,7 @@ const currentCountryWeather = new Object();
     }
 
     const getWeatherAPI = async function(){
-        try{
-            const JSONGeocoding = await getGeocodingAPI(getCity())
-            processGeocodingJson(JSONGeocoding);
-            
-            
+        try{  
             const getWeatherData = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${currentCountryWeather.lat}&lon=${currentCountryWeather.lon}&appid=${weatherAPIKey}`, {mode:'cors'})
             const response = await getWeatherData.json();
 
@@ -46,17 +43,26 @@ const currentCountryWeather = new Object();
 
     const  getGiphyWeather = async function(){
         try{
-            const JSONWeatherAPI = await getWeatherAPI();
-            processWeatherJson(JSONWeatherAPI);
-
             const getGiphyURL = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=sunny`, {mode: 'cors'})
             const giphyData = await getGiphyURL.json();
             
-            showGiphy(giphyData.data.images.original.url)
-            console.log(currentCountryWeather.weatherDescription)
+            return giphyData;
+        
         }catch(err){
             console.log(err);
         }
+    }
+
+    const weatherRequest = async function(){
+        const geocodingData = await getGeocodingAPI(getCity());
+        processGeocodingJson(geocodingData);
+
+        const weatherData = await getWeatherAPI();
+        processWeatherJson(weatherData);
+        dom.loadDataWeather(currentCountryWeather.name, currentCountryWeather.country, currentCountryWeather.main.temp, currentCountryWeather.weatherDescription);
+
+        const giphyData = await getGiphyWeather();
+        showGiphy(giphyData.data.images.original.url);
     }
 
     const processGeocodingJson = function(json){
@@ -78,10 +84,9 @@ const currentCountryWeather = new Object();
     }
     
     buttonSearch.addEventListener('click', function(){
-
-         getGiphyWeather();
-         console.log(currentCountryWeather)
-        // dom.createPanel();
+        dom.createPanel();
+        weatherRequest();
+         
     })
     
 })();
