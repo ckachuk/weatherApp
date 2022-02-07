@@ -1,13 +1,13 @@
 import dom from "./dom";
 
-const currentCountryWeatherObj = new Object();
+const currentCountryWeather = new Object();
 
 
 (function weatherApp(){
     
     const buttonSearch = document.querySelector('.searchButton'); 
     const weatherAPIKey = "d907fb01c4eb75b5f79e3814084f4a71";
-    const giphyAPIKey = "kTlXTNCHBfb26zecP7NMFvsbB8WpavkP";
+    const giphyAPIKey = "9nKZqJYnvDui5Vyrrth50XnAQTkL9O0S";
 
 
     const getCity = function(){
@@ -33,7 +33,7 @@ const currentCountryWeatherObj = new Object();
             processGeocodingJson(JSONGeocoding);
             
             
-            const getWeatherData = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${currentCountryWeatherObj.lat}&lon=${currentCountryWeatherObj.lon}&appid=${weatherAPIKey}`, {mode:'cors'})
+            const getWeatherData = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${currentCountryWeather.lat}&lon=${currentCountryWeather.lon}&appid=${weatherAPIKey}`, {mode:'cors'})
             const response = await getWeatherData.json();
 
             return response;
@@ -46,31 +46,29 @@ const currentCountryWeatherObj = new Object();
 
     const  getGiphyWeather = async function(){
         try{
-            // const getWeatherData = await getWeatherAPI();
-            // processWeatherJson(getWeatherData); 
-            // console.log(currentCountryWeatherObj.weatherDescription)
-            const getGiphyURL = await fetch(`api.giphy.com/v1/gifs/translate?api_key=9nKZqJYnvDui5Vyrrth50XnAQTkL9O0S&s=cats`, {mode: 'cors'})
-            const giphyData = getGiphyURL.json();
-            console.log(giphyData)
-            //showGiphy(giphyData)
+            const JSONWeatherAPI = await getWeatherAPI();
+            processWeatherJson(JSONWeatherAPI);
+
+            const getGiphyURL = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=sunny`, {mode: 'cors'})
+            const giphyData = await getGiphyURL.json();
+            
+            showGiphy(giphyData.data.images.original.url)
+            console.log(currentCountryWeather.weatherDescription)
         }catch(err){
             console.log(err);
         }
     }
 
     const processGeocodingJson = function(json){
-        currentCountryWeatherObj.name = json[0].local_names.en;
-        currentCountryWeatherObj.country = json[0].country;
-        currentCountryWeatherObj.lat = json[0].lat;
-        currentCountryWeatherObj.lon = json[0].lon;
+        currentCountryWeather.country = json[0].country;
+        currentCountryWeather.lat = json[0].lat;
+        currentCountryWeather.lon = json[0].lon;
+        currentCountryWeather.name = json[0].name;
     }
 
     const processWeatherJson = function(json){
-        currentCountryWeatherObj.main = json.main;
-        currentCountryWeatherObj.weatherDescription = json.weather[0].description;
-        // Object.entries(currentCountryWeatherObj.main).map(item =>{
-        //     console.log(item);
-        // })
+        currentCountryWeather.main = json.main;
+        currentCountryWeather.weatherDescription = json.weather[0].description;
     }
 
     const showGiphy = function(url){
@@ -81,8 +79,9 @@ const currentCountryWeatherObj = new Object();
     
     buttonSearch.addEventListener('click', function(){
 
-        // getGiphyWeather();
-         dom.createPanel();
+         getGiphyWeather();
+         console.log(currentCountryWeather)
+        // dom.createPanel();
     })
     
 })();
