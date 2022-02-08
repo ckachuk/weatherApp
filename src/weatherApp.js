@@ -43,7 +43,7 @@ const currentCountryWeather = new Object();
 
     const  getGiphyWeather = async function(){
         try{
-            const getGiphyURL = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=sunny`, {mode: 'cors'})
+            const getGiphyURL = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${giphyAPIKey}&q=${currentCountryWeather.weatherDescription}`, {mode: 'cors'})
             const giphyData = await getGiphyURL.json();
             
             return giphyData;
@@ -59,10 +59,11 @@ const currentCountryWeather = new Object();
 
         const weatherData = await getWeatherAPI();
         processWeatherJson(weatherData);
-        dom.loadDataWeather(currentCountryWeather.name, currentCountryWeather.country, currentCountryWeather.main.temp, currentCountryWeather.weatherDescription);
+        console.log(weatherData);
+        dom.loadDataWeather(currentCountryWeather.name, currentCountryWeather.country, currentCountryWeather.main.temp, currentCountryWeather.weatherDescription, currentCountryWeather.main.humidity);
 
         const giphyData = await getGiphyWeather();
-        showGiphy(giphyData.data.images.original.url);
+        dom.showGiphy(giphyData.data[0].images.original.url);
     }
 
     const processGeocodingJson = function(json){
@@ -70,18 +71,15 @@ const currentCountryWeather = new Object();
         currentCountryWeather.lat = json[0].lat;
         currentCountryWeather.lon = json[0].lon;
         currentCountryWeather.name = json[0].name;
+        
     }
 
     const processWeatherJson = function(json){
         currentCountryWeather.main = json.main;
-        currentCountryWeather.weatherDescription = json.weather[0].description;
+        currentCountryWeather.weatherDescription = json.weather[0].main;
     }
 
-    const showGiphy = function(url){
-        const img = document.querySelector('img');
-
-        img.src = url;
-    }
+  
     
     buttonSearch.addEventListener('click', function(){
         dom.createPanel();

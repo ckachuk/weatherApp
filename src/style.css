@@ -1,16 +1,84 @@
 :root{
-    --color1: #65ffad;
-    --color2: #00221e;
-    --color3: #717977;
-    --color4: #e2e2e2;
+    --color1: #07080a;
+    --color2: #3d3e50;
+    --color3: #1b2f3e;
+    --color4: #66798b;
+    --color5:#dae1e3;
+
+}
+body{
+    margin: 0px;
 }
 
-
 .main{
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
     background-color: var(--color4);
+    height: 51em;
 }
 
 header{
-    color: var(--color4);
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    height: 120px;
+    color: var(--color1);
     background-color: var(--color2);
 }
+
+img{
+    display: none;
+    max-width: 200px;
+    height: 200px;
+    order: 3;
+}
+
+.searchDiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    max-height: 50px;
+    order:1;
+    width: 100%;
+}
+
+#searchCity{
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.searchButton{
+    width: 150px;
+    height: 50px;
+    background-color: var(--color3);
+    border: 2px;
+    color: var(--color5);
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.searchButton:hover {
+    background-color: white; 
+  color: black; 
+  border: 2px solid var(--color3);
+  }
+  
+
+.divPanel{
+    background-color: #65ffad;
+    max-width: 200px;
+    height: 300px;
+    order: 2;
+}
+
+
+  
