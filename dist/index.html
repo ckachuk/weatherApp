@@ -2,6 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <link rel="icon" href="https://icons-for-free.com/iconfiles/png/512/cloud+day+forecast+lightning+shine+storm+sun+weather+icon-1320183295537909806.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"> 
     <title>WeatherApp</title>
     
   </head>
@@ -9,13 +13,29 @@
     <header>
       <h1>Weather APP</h1>
     </header>
+    <div class="divError">
+      <p class="pError"></p>
+    </div>
     <div class="main">
+      
       <div class="searchDiv">
-        <input type="text" name="" id="searchCity">
+        <input type="text" name="" id="searchCity" required>
         <button class="searchButton">Search</button>
       </div>
-
-      <img src="" alt="">
+      <div class="divPanel">
+        <div class="panel">   
+           <label class="switch">
+            <input id="toggleCheck" type="checkbox">
+            <span class="slider round"></span>
+          </label>   
+          <p class="pTemperature">Fahrenheit/Celcius</p>  
+          
+        </div>
+      </div>
+      <div class="imgDiv">
+        <img src="" alt="">
+      </div>
+      
     </div>
     
     <script src="main.js"></script>

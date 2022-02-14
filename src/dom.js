@@ -1,25 +1,26 @@
 const dom = (function(){
-    const displayDataWeather = function(){
+    const panelWeatherData = document.querySelector(".panel")
+    const imgWeather = document.querySelector("img")
 
-    }
-    
     const loadDataWeather = function(nameCity, country, temperature, description, humidity){
+        const divPanel = document.querySelector(".panel");
+        divPanel.style.display = 'block'
         const hName = document.querySelector('#hCity');
         const hCountry = document.querySelector('#hCountry');
         const hTemperature = document.querySelector('#hTemperature');
         const hDescription = document.querySelector('#hDescription');
+        const hHumidity = document.querySelector('#hHumidity')
 
         hName.textContent = `City: ${nameCity}`;
         hCountry.textContent = `Country: ${country}`;
-        hTemperature.textContent = `Temperature: ${temperature}`;
+        hTemperature.textContent = `Temperature in °F: ${temperature}`;
         hDescription.textContent = `Description: ${description}`;
         hHumidity.textContent = `Humidity: ${humidity}`;
     }
     
     const createPanel = function(){
-        const main = document.querySelector(".main");
-        const divPanel = document.createElement("div");
-        divPanel.className = 'divPanel'
+        const divPanel = document.querySelector(".panel");
+        
         const hName = domH2("hCity", "");
         const hCountry = domH2("hCountry", "");
         const hTemperature = domH2("hTemperature", "");
@@ -27,7 +28,6 @@ const dom = (function(){
         const hHumidity = domH2("hHumidity", "")
 
     
-        main.appendChild(divPanel);
         divPanel.appendChild(hName);
         divPanel.appendChild(hCountry);
         divPanel.appendChild(hTemperature);
@@ -35,14 +35,25 @@ const dom = (function(){
         divPanel.appendChild(hHumidity);
     }
 
-    const showGiphy = function(url){
+    const errorHandling = function(err){
+        panelWeatherData.style.display = "none";
+        imgWeather.style.display = "none";
+
+        const divError = document.querySelector('.divError');
+        divError.style.display = 'flex'
+        const pError = document.querySelector('.pError');
+
+        pError.textContent = "Something is wrong... could you try something else?";
+    }
+
+    const showImage = function(url){
         
         const img = document.querySelector('img');
         img.style.display = "block"
         img.src = url;
     }
     
-    return {createPanel, loadDataWeather, showGiphy}    
+    return {createPanel, loadDataWeather, showImage, errorHandling}    
 })();
 
 const domH2 = function(nameID, content){
