@@ -16,3 +16,7 @@ Things what learned with this project
 APIs used: 
   https://openweathermap.org/
   https://unsplash.com/developers
+
+
+
+live demo: https://ckachuk.github.io/weatherApp/
